@@ -1,0 +1,96 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int data;
+    struct node *prev, *next;
+};
+
+struct node* head = NULL;
+
+struct node* create(int val) {
+    struct node* temp = malloc(sizeof(struct node));
+    temp->data = val;
+    temp->prev = temp->next = NULL;
+    return temp;
+}
+
+// Insert Begin
+void insertBegin() {
+    int val; scanf("%d",&val);
+    struct node* temp = create(val);
+
+    if(head != NULL)
+        head->prev = temp;
+
+    temp->next = head;
+    head = temp;
+}
+
+// Insert End
+void insertEnd() {
+    int val; scanf("%d",&val);
+    struct node* temp = create(val);
+
+    if(head == NULL) {
+        head = temp;
+        return;
+    }
+
+    struct node* p = head;
+    while(p->next) p = p->next;
+
+    p->next = temp;
+    temp->prev = p;
+}
+
+// Delete Begin
+void deleteBegin() {
+    if(head == NULL) return;
+
+    struct node* temp = head;
+    head = head->next;
+
+    if(head) head->prev = NULL;
+    free(temp);
+}
+
+// Delete End
+void deleteEnd() {
+    if(head == NULL) return;
+
+    struct node* p = head;
+    while(p->next) p = p->next;
+
+    if(p->prev) p->prev->next = NULL;
+    else head = NULL;
+
+    free(p);
+}
+
+// Display
+void display() {
+    struct node* p = head;
+    while(p) {
+        printf("%d <-> ", p->data);
+        p = p->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    int ch;
+    while(1) {
+        printf("\n1.Insert Begin\n2.Insert End\n3.Delete Begin\n4.Delete End\n5.Display\n6.Exit\n");
+        scanf("%d",&ch);
+
+        switch(ch) {
+            case 1: insertBegin(); break;
+            case 2: insertEnd(); break;
+            case 3: deleteBegin(); break;
+            case 4: deleteEnd(); break;
+            case 5: display(); break;
+            case 6: return 0;
+        }
+    }
+}
