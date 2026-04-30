@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node *front = NULL, *rear = NULL;
+
+void insert(int x) {
+    struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
+    temp->data = x;
+    temp->next = NULL;
+
+    if(rear == NULL) {
+        front = rear = temp;
+    } else {
+        rear->next = temp;
+        rear = temp;
+    }
+}
+
+void delete() {
+    if(front == NULL) {
+        printf("Queue Underflow\n");
+    } else {
+        struct Node* temp = front;
+        printf("Deleted: %d\n", front->data);
+        front = front->next;
+        free(temp);
+    }
+}
+
+void display() {
+    struct Node* temp = front;
+    while(temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    insert(5);
+    insert(15);
+    insert(25);
+    display();
+    delete();
+    display();
+    return 0;
+}
